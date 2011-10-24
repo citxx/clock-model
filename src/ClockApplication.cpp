@@ -42,15 +42,6 @@ ClockApplication::ClockApplication():
 
     glEnable(GL_DEPTH_TEST);
 
-    /* Setup the view of the cube. */
-    glMatrixMode(GL_PROJECTION);
-    gluPerspective( /* field of view in degree */ 40.0,
-    /* aspect ratio */ 1.0,
-    /* Z near */ 1.0, /* Z far */ 10.0);
-    glMatrixMode(GL_MODELVIEW);
-    gluLookAt(2.0, 2.0, 5.0,  // eye is at (0,0,5)
-              0.0, 0.0, 0.0,  // center is at (0,0,0)
-              0.0, 5.0, 0.0); // up is in positive Y direction
 }
 
 ClockApplication::~ClockApplication() {
@@ -60,6 +51,18 @@ ClockApplication::~ClockApplication() {
 }
 
 void ClockApplication::drawScene() {
+    /* Setup the view of the cube. */
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective( /* field of view in degree */ 40.0,
+    /* aspect ratio */ 1.0,
+    /* Z near */ 1.0, /* Z far */ 10.0);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    gluLookAt(2.0, 2.0, 5.0,  // eye is at (0,0,5)
+              0.0, 0.0, 0.0,  // center is at (0,0,0)
+              0.0, 5.0, 0.0); // up is in positive Y direction
+
     this->model->glDraw();
 }
 
