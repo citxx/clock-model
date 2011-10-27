@@ -4,6 +4,7 @@
 #include <string>
 
 #include "ClockApplication.hpp"
+#include "PerspectiveCamera.hpp"
 #include "PolygonalModel.hpp"
 
 const int DEFAULT_WINDOW_WIDTH = 600;
@@ -51,19 +52,18 @@ ClockApplication::~ClockApplication() {
 }
 
 void ClockApplication::drawScene() {
-    /* Setup the view of the cube. */
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluPerspective( /* field of view in degree */ 40.0,
-    /* aspect ratio */ 1.0,
-    /* Z near */ 1.0, /* Z far */ 10.0);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    gluLookAt(2.0, 2.0, 5.0,  // eye is at (0,0,5)
-              0.0, 0.0, 0.0,  // center is at (0,0,0)
-              0.0, 5.0, 0.0); // up is in positive Y direction
+    PerspectiveCamera cam(
+        GLVector(10.0, 0.0, 0.0),
+        GLVector(0.0, 0.0, 0.0),
+        GLVector(0.0, 0.0, 1.0),
+        70.0, 1.0, 1.0, 10.0
+    );
 
-    this->model->glDraw();
+    cam.glActivate();
+
+    this->model->glDraw(GLVector(0.0, 0.0, 0.0));
+    this->model->glDraw(GLVector(1.0, 1.0, 1.0));
+    this->model->glDraw(GLVector(2.0, 2.0, 2.0));
 }
 
 void ClockApplication::processEvents() {

@@ -20,6 +20,7 @@ set(SOURCES
     GLVector.cpp
     GLTriangle.cpp
     PolygonalModel.cpp
+    PerspectiveCamera.cpp
 )
 
 add_executable(clock ${SOURCES})

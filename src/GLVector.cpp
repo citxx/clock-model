@@ -4,18 +4,16 @@
 
 #include "GLVector.hpp"
 
-GLVector::GLVector(float x, float y, float z, float w):
+GLVector::GLVector(float x, float y, float z):
         x(x),
         y(y),
-        z(z),
-        w(w) {
+        z(z) {
 }
 
 GLVector::GLVector(const GLVector &a):
         x(a.x),
         y(a.y),
-        z(a.z),
-        w(a.w) {
+        z(a.z) {
 }
 
 float GLVector::len() const {
@@ -23,7 +21,7 @@ float GLVector::len() const {
 }
 
 void GLVector::glPassVertex() const {
-    glVertex4f(this->x, this->y, this->z, this->w);
+    glVertex3f(this->x, this->y, this->z);
 }
 
 void GLVector::glPassNormal() const {
@@ -31,15 +29,15 @@ void GLVector::glPassNormal() const {
 }
 
 GLVector operator -(const GLVector &a) {
-    return GLVector(a.x, a.y, a.z, a.w);
+    return GLVector(a.x, a.y, a.z);
 }
 
 GLVector operator +(const GLVector &a, const GLVector &b) {
-    return GLVector(a.x + b.x, a.y + b.y, a.z + b.z, a.w);
+    return GLVector(a.x + b.x, a.y + b.y, a.z + b.z);
 }
 
 GLVector operator -(const GLVector &a, const GLVector &b) {
-    return GLVector(a.x - b.x, a.y - b.y, a.z - b.z, a.w);
+    return GLVector(a.x - b.x, a.y - b.y, a.z - b.z);
 }
 
 float operator *(const GLVector &a, const GLVector &b) {
@@ -48,7 +46,7 @@ float operator *(const GLVector &a, const GLVector &b) {
 
 GLVector normalized(const GLVector &a) {
     float l = a.len();
-    return GLVector(a.x / l, a.y / l, a.z / l, a.w);
+    return GLVector(a.x / l, a.y / l, a.z / l);
 }
 
 GLVector multiply(const GLVector &a, const GLVector &b) {
@@ -60,6 +58,6 @@ GLVector normal(const GLVector &a, const GLVector &b) {
 }
 
 std::ostream & operator <<(std::ostream &stream, const GLVector &a) {
-    stream << std::setprecision(2) << "(" << a.x << ", " << a.y << ", " << a.z << ", " << a.w << ")";
+    stream << std::setprecision(2) << "(" << a.x << ", " << a.y << ", " << a.z << ")";
     return stream;
 }

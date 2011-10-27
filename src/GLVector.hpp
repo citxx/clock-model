@@ -5,9 +5,9 @@
 
 class GLVector {
   public:
-    float x, y, z, w;
+    float x, y, z;
 
-    GLVector(float x, float y, float z = 0.0, float w = 1.0);
+    GLVector(float x, float y, float z = 0.0);
     GLVector(const GLVector &a);
 
     float len() const;

@@ -70,6 +70,10 @@ PolygonalModel::~PolygonalModel() {
     std::cerr << "done." << std::endl;
 }
 
-void PolygonalModel::glDraw() const {
-    glCallList(this->listNum);
+void PolygonalModel::glDraw(const GLVector &position) const {
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+        glTranslatef(position.x, position.y, position.z);
+        glCallList(this->listNum);
+    glPopMatrix();
 }
