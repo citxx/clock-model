@@ -57,6 +57,10 @@ GLVector normal(const GLVector &a, const GLVector &b) {
     return normalized(multiply(a, b));
 }
 
+float angle(const GLVector &a, const GLVector &b) {
+    return atan2f(multiply(a, b).len(), a * b);
+}
+
 std::ostream & operator <<(std::ostream &stream, const GLVector &a) {
     stream << std::setprecision(2) << "(" << a.x << ", " << a.y << ", " << a.z << ")";
     return stream;

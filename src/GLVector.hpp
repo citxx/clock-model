@@ -24,6 +24,7 @@ GLVector operator -(const GLVector &a, const GLVector &b);
 float operator *(const GLVector &a, const GLVector &b);
 GLVector normalized(const GLVector &a);
 GLVector multiply(const GLVector &a, const GLVector &b);
+float angle(const GLVector &a, const GLVector &b);
 GLVector normal(const GLVector &a, const GLVector &b);
 
 std::ostream & operator <<(std::ostream &stream, const GLVector &t);

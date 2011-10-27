@@ -27,7 +27,7 @@ ClockApplication::ClockApplication():
         throw (std::string("SDL Error: ") + SDL_GetError()).c_str();
     }
 
-    this->model = new PolygonalModel("monkey.obj");
+    this->model = new PolygonalModel("axes.obj");
 
     glClearColor(BG_COLOR[0], BG_COLOR[1], BG_COLOR[2], BG_COLOR[3]);
     glClearDepth(1.0f);
@@ -53,17 +53,29 @@ ClockApplication::~ClockApplication() {
 
 void ClockApplication::drawScene() {
     PerspectiveCamera cam(
-        GLVector(10.0, 0.0, 0.0),
+        GLVector(9.0, 4.0, 2.0),
         GLVector(0.0, 0.0, 0.0),
         GLVector(0.0, 0.0, 1.0),
-        70.0, 1.0, 1.0, 10.0
+        70.0, 1.0, 1.0, 15.0
     );
 
     cam.glActivate();
 
+    glBegin(GL_LINES);
+        glColor3f(1.0, 0.0, 0.0);
+        glVertex3f(0.0, 0.0, 0.0);
+        glVertex3f(10.0, 0.0, 0.0);
+        glColor3f(0.0, 1.0, 0.0);
+        glVertex3f(0.0, 0.0, 0.0);
+        glVertex3f(0.0, 10.0, 0.0);
+        glColor3f(0.0, 0.0, 1.0);
+        glVertex3f(0.0, 0.0, 0.0);
+        glVertex3f(0.0, 0.0, 10.0);
+    glEnd();
+
     this->model->glDraw(GLVector(0.0, 0.0, 0.0));
-    this->model->glDraw(GLVector(1.0, 1.0, 1.0));
-    this->model->glDraw(GLVector(2.0, 2.0, 2.0));
+//    this->model->glDraw(GLVector(1.0, 1.0, 1.0));
+//    this->model->glDraw(GLVector(2.0, 2.0, 2.0));
 }
 
 void ClockApplication::processEvents() {

@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <cmath>
 
 #include "GLVector.hpp"
 #include "GLTriangle.hpp"
@@ -70,10 +71,19 @@ PolygonalModel::~PolygonalModel() {
     std::cerr << "done." << std::endl;
 }
 
-void PolygonalModel::glDraw(const GLVector &position) const {
+void PolygonalModel::glDraw(
+    const GLVector &position,
+    const GLVector &direction,
+    float selfAngle
+) const {
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
         glTranslatef(position.x, position.y, position.z);
+        GLVector rotationAxis = multiply(GLVector(1.0, 0.0, 0.0), direction);
+        float rotationAngle = angle(GLVector(1.0, 0.0, 0.0), direction);
+//        std::cerr << "Rotation: " << rotationAxis << " " << rotationAngle / M_PI * 180.0 << std::endl;
+        glRotatef(rotationAngle / M_PI * 180.0, rotationAxis.x, rotationAxis.y, rotationAxis.z);
+        glRotatef(selfAngle, 1.0, 0.0, 0.0);
         glCallList(this->listNum);
     glPopMatrix();
 }

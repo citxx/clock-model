@@ -14,7 +14,11 @@ class PolygonalModel {
     PolygonalModel(std::string fileName);
     ~PolygonalModel();
 
-    void glDraw(const GLVector &position) const;
+    void glDraw(
+        const GLVector &position,
+        const GLVector &direction = GLVector(1.0, 0.0, 0.0),
+        float angle = 0.0
+    ) const;
 };
 
 
