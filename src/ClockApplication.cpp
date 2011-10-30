@@ -47,7 +47,9 @@ ClockApplication::ClockApplication():
         throw (std::string("SDL Error: ") + SDL_GetError()).c_str();
     }
 
-    this->model = new PolygonalModel("axes.obj");
+    this->axes = new PolygonalModel("models/axes.obj");
+    this->cyl = new PolygonalModel("models/cyl.obj");
+    this->model = NULL;
 
     glClearColor(BG_COLOR[0], BG_COLOR[1], BG_COLOR[2], BG_COLOR[3]);
     glClearDepth(1.0f);
@@ -67,9 +69,30 @@ ClockApplication::ClockApplication():
 }
 
 ClockApplication::~ClockApplication() {
-    delete this->model;
+    delete this->axes;
+    delete this->cyl;
+    if (this->model != NULL) {
+        delete this->model;
+    }
 
     SDL_Quit();
+}
+
+void ClockApplication::buildScene() {
+    if (this->model != NULL) {
+        delete this->model;
+    }
+
+    std::vector <Model *> models;
+    std::vector <Position> positions;
+
+    models.push_back(this->cyl);
+    positions.push_back(Position(Vector(0.0, 0.0, 0.0), 0.5 * M_PI, Vector(1.0, 0.0, 0.0)));
+
+    models.push_back(this->axes);
+    positions.push_back(Position(Vector(0.0, 0.0, 1.2)));
+
+    this->model = new CompoundModel(models, positions);
 }
 
 void ClockApplication::drawScene() const {
@@ -88,7 +111,7 @@ void ClockApplication::drawScene() const {
         glColor3f(0.5, 0.5, 0.5);
     glEnd();
 
-    this->model->glDraw(Position(Vector(0.0, 0.0, 0.0), 45.0 * M_PI / 180.0, Vector(1.0, 1.0, 1.0)));
+    this->model->glDraw(Position(Vector(0.0, 0.0, 0.0)));
 }
 
 void ClockApplication::processEvents() {
@@ -146,6 +169,7 @@ void ClockApplication::mainLoop() {
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        this->buildScene();
         this->drawScene();
 
         SDL_GL_SwapBuffers();

@@ -15,6 +15,7 @@ endif (NOT OPENGL_FOUND)
 include_directories(${SDL_INCLUDE_DIR})
 
 set(SOURCES
+    CompoundModel.cpp
     clock.cpp
     ClockApplication.cpp
     GLTriangle.cpp

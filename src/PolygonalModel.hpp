@@ -5,17 +5,18 @@
 #include <string>
 #include <vector>
 
+#include "Model.hpp"
 #include "Position.hpp"
 #include "Vector.hpp"
 
-class PolygonalModel {
+class PolygonalModel: public Model {
     GLuint listNum;
 
   public:
     PolygonalModel(std::string fileName);
     ~PolygonalModel();
 
-    void glDraw(const Position &position) const;
+    virtual void glDraw(const Position &position) const;
 };
 
 

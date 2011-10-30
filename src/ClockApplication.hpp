@@ -1,10 +1,11 @@
 #ifndef CLOCK_APPLICATION_HPP
 #define CLOCK_APPLICATION_HPP
 
-#include "Vector.hpp"
+#include "CompoundModel.hpp"
 #include "PerspectiveCamera.hpp"
 #include "PolygonalModel.hpp"
 #include "SDL.h"
+#include "Vector.hpp"
 
 class ClockApplication {
     SDL_Surface *screen;
@@ -20,7 +21,9 @@ class ClockApplication {
     Vector rotateEnd;
     PerspectiveCamera cameraStart;
 
-    PolygonalModel *model;
+    PolygonalModel *axes, *cyl;
+    CompoundModel *model;
+    void buildScene();
     void drawScene() const;
 
     void processEvents();
