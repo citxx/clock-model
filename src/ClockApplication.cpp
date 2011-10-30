@@ -87,10 +87,16 @@ void ClockApplication::buildScene() {
     std::vector <Position> positions;
 
     models.push_back(this->cyl);
-    positions.push_back(Position(Vector(0.0, 0.0, 0.0), 0.5 * M_PI, Vector(1.0, 0.0, 0.0)));
+    positions.push_back(Position(
+        Vector(0.0, 0.0, 0.0),
+        Rotation(0.5 * M_PI, Vector(1.0, 0.0, 0.0)),
+        Vector(5.0, 1.0, 4.0)
+    ));
 
     models.push_back(this->axes);
-    positions.push_back(Position(Vector(0.0, 0.0, 1.2)));
+    positions.push_back(Position(
+        Vector(0.0, 0.0, 1.2)
+    ));
 
     this->model = new CompoundModel(models, positions);
 }

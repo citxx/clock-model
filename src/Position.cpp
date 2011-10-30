@@ -4,31 +4,26 @@
 
 #include "Position.hpp"
 
-Position::Position(const Vector &location, const Quaternion &rotation):
+Position::Position(
+    const Vector &location,
+    const Rotation &rotation,
+    const Vector &scaling
+):
         location(location),
-        rotation(rotation) {
+        rotation(rotation),
+        scaling(scaling) {
 }
 
-Position::Position(const Vector &location, float alpha, const Vector &axis):
-        location(location),
-        rotation(Quaternion(cosf(alpha / 2), sinf(alpha / 2) * normalized(axis))) {
-}
-
-Position::Position(const Vector &location):
-        location(location),
-        rotation(Quaternion(1.0, Vector(0.0, 0.0, 0.0))) {
-}
-
-void Position::glActivate() const {
+void Position::glPerform() const {
     glTranslatef(
         this->location.x,
         this->location.y,
         this->location.z
     );
-    glRotatef(
-        acosf(this->rotation.w) * 360.0 / M_PI,
-        this->rotation.v.x,
-        this->rotation.v.y,
-        this->rotation.v.z
+    this->rotation.glPerform();
+    glScalef(
+        this->scaling.x,
+        this->scaling.y,
+        this->scaling.z
     );
 }

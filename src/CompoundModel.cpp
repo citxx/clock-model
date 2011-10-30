@@ -16,7 +16,7 @@ CompoundModel::CompoundModel(
 void CompoundModel::glDraw(const Position &position) const {
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
-        position.glActivate();
+        position.glPerform();
         for (int i = 0; i < (int)models.size(); i++) {
             this->models[i]->glDraw(this->positions[i]);
         }

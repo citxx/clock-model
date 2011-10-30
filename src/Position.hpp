@@ -1,19 +1,22 @@
 #ifndef POSITION_HPP
 #define POSITION_HPP
 
-#include "Quaternion.hpp"
+#include "Rotation.hpp"
 #include "Vector.hpp"
 
 class Position {
     Vector location;
-    Quaternion rotation;
+    Rotation rotation;
+    Vector scaling;
 
   public:
-    Position(const Vector &location, const Quaternion &rotation);
-    Position(const Vector &location, float alpha, const Vector &axis);
-    explicit Position(const Vector &location);
+    explicit Position(
+        const Vector &location,
+        const Rotation &rotation = Rotation(),
+        const Vector &scaling = Vector(1.0, 1.0, 1.0)
+    );
 
-    void glActivate() const;
+    void glPerform() const;
 };
 
 #endif  // POSITION_HPP

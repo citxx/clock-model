@@ -74,7 +74,7 @@ PolygonalModel::~PolygonalModel() {
 void PolygonalModel::glDraw(const Position &position) const {
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
-        position.glActivate();
+        position.glPerform();
         glCallList(this->listNum);
     glPopMatrix();
 }
