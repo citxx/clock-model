@@ -71,19 +71,10 @@ PolygonalModel::~PolygonalModel() {
     std::cerr << "done." << std::endl;
 }
 
-void PolygonalModel::glDraw(
-    const Vector &position,
-    const Vector &direction,
-    float selfAngle
-) const {
+void PolygonalModel::glDraw(const Position &position) const {
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
-        glTranslatef(position.x, position.y, position.z);
-        Vector rotationAxis = multiply(Vector(1.0, 0.0, 0.0), direction);
-        float rotationAngle = angle(Vector(1.0, 0.0, 0.0), direction);
-//        std::cerr << "Rotation: " << rotationAxis << " " << rotationAngle / M_PI * 180.0 << std::endl;
-        glRotatef(rotationAngle / M_PI * 180.0, rotationAxis.x, rotationAxis.y, rotationAxis.z);
-        glRotatef(selfAngle, 1.0, 0.0, 0.0);
+        position.glActivate();
         glCallList(this->listNum);
     glPopMatrix();
 }

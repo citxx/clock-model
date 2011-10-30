@@ -1,3 +1,4 @@
+#include <cmath>
 #include <iostream>
 #include <GL/gl.h>
 #include <GL/glu.h>
@@ -87,7 +88,7 @@ void ClockApplication::drawScene() const {
         glColor3f(0.5, 0.5, 0.5);
     glEnd();
 
-    this->model->glDraw(Vector(0.0, 0.0, 0.0));
+    this->model->glDraw(Position(Vector(0.0, 0.0, 0.0), 45.0 * M_PI / 180.0, Vector(1.0, 1.0, 1.0)));
 }
 
 void ClockApplication::processEvents() {

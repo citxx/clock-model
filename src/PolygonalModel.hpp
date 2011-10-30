@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 
+#include "Position.hpp"
 #include "Vector.hpp"
 
 class PolygonalModel {
@@ -14,11 +15,7 @@ class PolygonalModel {
     PolygonalModel(std::string fileName);
     ~PolygonalModel();
 
-    void glDraw(
-        const Vector &position,
-        const Vector &direction = Vector(1.0, 0.0, 0.0),
-        float angle = 0.0
-    ) const;
+    void glDraw(const Position &position) const;
 };
 
 
