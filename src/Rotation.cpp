@@ -3,6 +3,10 @@
 
 #include "Rotation.hpp"
 
+Rotation::Rotation():
+        r(1.0, Vector(0.0, 0.0, 0.0)) {
+}
+
 Rotation::Rotation(const Quaternion &q):
         r(q) {
 }

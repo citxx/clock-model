@@ -8,6 +8,7 @@ class Rotation {
     Quaternion r;
 
   public:
+    Rotation();
     Rotation(const Quaternion &q);
     Rotation(float angle, const Vector &axis);
     Rotation(float angle, float x, float y, float z);
