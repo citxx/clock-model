@@ -26,7 +26,7 @@ void Position::glActivate() const {
         this->location.z
     );
     glRotatef(
-        acosf(this->rotation.w) * 180.0 / M_PI,
+        acosf(this->rotation.w) * 360.0 / M_PI,
         this->rotation.v.x,
         this->rotation.v.y,
         this->rotation.v.z
