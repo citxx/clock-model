@@ -9,14 +9,19 @@ Position::Position(const Vector &location, const Quaternion &rotation):
 }
 
 Position::Position(const Vector &location, float alpha, const Vector &axis):
-    location(location),
-    rotation(Quaternion(cosf(alpha / 2), sinf(alpha / 2) * normalized(axis)) {
+        location(location),
+        rotation(Quaternion(cosf(alpha / 2), sinf(alpha / 2) * normalized(axis))) {
 }
 
-void Position::glActivate() {
+Position::Position(const Vector &location):
+        location(location),
+        rotation(Quaternion(1.0, Vector(0.0, 0.0, 0.0))) {
+}
+
+void Position::glActivate() const {
     glTranslatef(
         this->location.x,
-        this->locatoin.y,
+        this->location.y,
         this->location.z
     );
     glRotatef(

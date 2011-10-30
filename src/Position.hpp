@@ -11,6 +11,7 @@ class Position {
   public:
     Position(const Vector &location, const Quaternion &rotation);
     Position(const Vector &location, float alpha, const Vector &axis);
+    Position(const Vector &location);
 
     void glActivate() const;
 };
