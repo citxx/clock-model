@@ -1,4 +1,5 @@
 #include <cmath>
+#include <iostream>
 #include <GL/gl.h>
 
 #include "Position.hpp"
@@ -25,7 +26,7 @@ void Position::glActivate() const {
         this->location.z
     );
     glRotatef(
-        acosf(this->rotation.w),
+        acosf(this->rotation.w) * 180.0 / M_PI,
         this->rotation.v.x,
         this->rotation.v.y,
         this->rotation.v.z
