@@ -12,7 +12,7 @@ class Rotation {
     Rotation(float angle, const Vector &axis);
     Rotation(float angle, float x, float y, float z);
 
-    void glPerform();
+    void glPerform() const;
 
     friend Rotation operator *(const Rotation &a, const Rotation &b);
 };

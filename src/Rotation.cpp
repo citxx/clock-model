@@ -15,7 +15,7 @@ Rotation::Rotation(float angle, float x, float y, float z):
         r(cosf(angle / 2), sinf(angle / 2) * normalized(Vector(x, y, z))) {
 }
 
-void Rotation::glPerform() {
+void Rotation::glPerform() const {
     glRotatef(
         acosf(this->r.w) * 360.0 / M_PI,
         this->r.v.x,
