@@ -21,8 +21,9 @@ set(SOURCES
     GLTriangle.cpp
     PolygonalModel.cpp
     PerspectiveCamera.cpp
-    Quaternion.cpp
     Position.cpp
+    Quaternion.cpp
+    Rotation.cpp
     Vector.cpp
 )
 
