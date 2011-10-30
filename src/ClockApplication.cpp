@@ -4,17 +4,36 @@
 #include <string>
 
 #include "ClockApplication.hpp"
-#include "PerspectiveCamera.hpp"
 #include "PolygonalModel.hpp"
 
 const int DEFAULT_WINDOW_WIDTH = 600;
 const int DEFAULT_WINDOW_HEIGHT = 600;
 
+// Camera parameters
+const GLVector DEFAULT_LOCATION = GLVector(7.0, 7.0, 7.0);
+const GLVector DEFAULT_CENTER = GLVector(0.0, 0.0, 0.0);
+const GLVector DEFAULT_UP = GLVector (0.0, 0.0, 0.1);
+const float DEFAULT_VIEW_ANGLE = 60.0;
+const float DEFAULT_NEAR_PLANE = 1.0;
+const float DEFAULT_FAR_PLANE = 15.0;
+
 const int BG_COLOR[] = {1.0, 1.0, 1.0, 1.0};
 
 ClockApplication::ClockApplication():
     windowWidth(DEFAULT_WINDOW_WIDTH),
-    windowHeight(DEFAULT_WINDOW_HEIGHT) {
+    windowHeight(DEFAULT_WINDOW_HEIGHT),
+    isRunning(false),
+    mainCamera(
+        DEFAULT_LOCATION,
+        DEFAULT_CENTER,
+        DEFAULT_UP,
+        DEFAULT_VIEW_ANGLE,
+        (float)DEFAULT_WINDOW_WIDTH / DEFAULT_WINDOW_HEIGHT,
+        DEFAULT_NEAR_PLANE,
+        DEFAULT_FAR_PLANE
+    ),
+    isRotating(false),
+    cameraStart(mainCamera) {
 
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0) {
         throw (std::string("SDL init error: ") + SDL_GetError()).c_str();
@@ -33,13 +52,14 @@ ClockApplication::ClockApplication():
     glClearDepth(1.0f);
     glViewport(0, 0, this->windowWidth, this->windowHeight);
 
-    GLfloat light_diffuse[] = {1.0, 1.0, 0.5, 1.0};  /* Red diffuse light. */
+    GLfloat light_diffuse[] = {1.0, 1.0, 1.0, 1.0};
     GLfloat light_position[] = {1.5, 1.5, 1.5, 0.0};  /* Infinite light location. */
 
     glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
     glLightfv(GL_LIGHT0, GL_POSITION, light_position);
     glEnable(GL_LIGHT0);
     glEnable(GL_LIGHTING);
+    glEnable(GL_COLOR_MATERIAL);
 
     glEnable(GL_DEPTH_TEST);
 
@@ -51,15 +71,8 @@ ClockApplication::~ClockApplication() {
     SDL_Quit();
 }
 
-void ClockApplication::drawScene() {
-    PerspectiveCamera cam(
-        GLVector(9.0, 4.0, 2.0),
-        GLVector(0.0, 0.0, 0.0),
-        GLVector(0.0, 0.0, 1.0),
-        70.0, 1.0, 1.0, 15.0
-    );
-
-    cam.glActivate();
+void ClockApplication::drawScene() const {
+    this->mainCamera.glActivate();
 
     glBegin(GL_LINES);
         glColor3f(1.0, 0.0, 0.0);
@@ -71,11 +84,10 @@ void ClockApplication::drawScene() {
         glColor3f(0.0, 0.0, 1.0);
         glVertex3f(0.0, 0.0, 0.0);
         glVertex3f(0.0, 0.0, 10.0);
+        glColor3f(0.5, 0.5, 0.5);
     glEnd();
 
     this->model->glDraw(GLVector(0.0, 0.0, 0.0));
-//    this->model->glDraw(GLVector(1.0, 1.0, 1.0));
-//    this->model->glDraw(GLVector(2.0, 2.0, 2.0));
 }
 
 void ClockApplication::processEvents() {
@@ -90,7 +102,39 @@ void ClockApplication::processEvents() {
             this->windowHeight = event.resize.h;
             this->screen = SDL_SetVideoMode(this->windowWidth, this->windowHeight, 16, SDL_OPENGL | SDL_RESIZABLE);
             glViewport(0, 0, this->windowWidth, this->windowHeight);
+            this->mainCamera = this->mainCamera.resized(this->windowWidth, this->windowHeight);
         }
+        if (event.type == SDL_MOUSEMOTION) {
+            if (this->isRotating) {
+//                std::cerr << "Moving" << std::endl;
+                this->rotateEnd = GLVector(event.motion.x, event.motion.y);
+            }
+//            printf("Mouse moved by %d,%d to (%d,%d)\n",
+//                   event.motion.xrel, event.motion.yrel,
+//                   event.motion.x, event.motion.y);
+        }
+        if (event.type == SDL_MOUSEBUTTONDOWN) {
+            if (event.button.button == SDL_BUTTON_RIGHT) {
+                this->isRotating = true;
+                this->rotateStart = GLVector(event.button.x, event.button.y);
+                this->rotateEnd = this->rotateStart;
+                this->cameraStart = this->mainCamera;
+            }
+        }
+        if (event.type == SDL_MOUSEBUTTONUP) {
+            if (event.button.button == SDL_BUTTON_RIGHT) {
+                this->isRotating = false;
+            }
+        }
+    }
+
+    // TODO: Calculate new camera position
+    if (this->isRotating) {
+        GLVector move = this->rotateEnd - this->rotateStart;
+        float alpha = 2 * move.x / this->windowHeight * DEFAULT_VIEW_ANGLE;
+        float betha = 2 * move.y / this->windowHeight * DEFAULT_VIEW_ANGLE;
+
+        this->mainCamera = this->cameraStart.rotated(alpha, -betha);
     }
 }
 

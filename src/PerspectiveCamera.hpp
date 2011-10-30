@@ -4,7 +4,7 @@
 #include "GLVector.hpp"
 
 class PerspectiveCamera {
-    GLVector position;
+    GLVector location;
     GLVector center;
     GLVector up;
     float viewField;
@@ -14,7 +14,7 @@ class PerspectiveCamera {
 
   public:
     PerspectiveCamera(
-        const GLVector &position,
+        const GLVector &location,
         const GLVector &center,
         const GLVector &up,
         float viewField,
@@ -22,8 +22,12 @@ class PerspectiveCamera {
         float nearZ,
         float farZ
     );
+    PerspectiveCamera(const PerspectiveCamera &cam);
 
-    void glActivate();
+    void glActivate() const;
+
+    PerspectiveCamera rotated(float alpha, float betha) const;
+    PerspectiveCamera resized(int width, int height) const;
 };
 
 #endif  // PERSPECTIVE_CAMERA_HPP

@@ -28,6 +28,14 @@ void GLVector::glPassNormal() const {
     glNormal3f(this->x, this->y, this->z);
 }
 
+bool operator ==(const GLVector &a, const GLVector &b) {
+    return a.x == b.x && a.y == b.y && a.z == b.z;
+}
+
+bool operator !=(const GLVector &a, const GLVector &b){
+    return a.x != b.x || a.y != b.y || a.z != b.z;
+}
+
 GLVector operator -(const GLVector &a) {
     return GLVector(a.x, a.y, a.z);
 }
@@ -42,6 +50,14 @@ GLVector operator -(const GLVector &a, const GLVector &b) {
 
 float operator *(const GLVector &a, const GLVector &b) {
     return a.x * b.x + a.y * b.y + a.z * b.z;
+}
+
+GLVector operator *(float a, const GLVector &b) {
+    return GLVector(a * b.x, a * b.y, a * b.z);
+}
+
+GLVector operator *(GLVector &b, float a) {
+    return GLVector(a * b.x, a * b.y, a * b.z);
 }
 
 GLVector normalized(const GLVector &a) {
