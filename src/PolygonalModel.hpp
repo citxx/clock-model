@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "GLVector.hpp"
+#include "Vector.hpp"
 
 class PolygonalModel {
     GLuint listNum;
@@ -15,8 +15,8 @@ class PolygonalModel {
     ~PolygonalModel();
 
     void glDraw(
-        const GLVector &position,
-        const GLVector &direction = GLVector(1.0, 0.0, 0.0),
+        const Vector &position,
+        const Vector &direction = Vector(1.0, 0.0, 0.0),
         float angle = 0.0
     ) const;
 };

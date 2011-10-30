@@ -1,6 +1,6 @@
 #include "GLTriangle.hpp"
 
-GLTriangle::GLTriangle(const GLVector &v1, const GLVector &v2, const GLVector &v3):
+GLTriangle::GLTriangle(const Vector &v1, const Vector &v2, const Vector &v3):
         v1(v1),
         v2(v2),
         v3(v3) {

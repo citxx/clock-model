@@ -17,10 +17,12 @@ include_directories(${SDL_INCLUDE_DIR})
 set(SOURCES
     clock.cpp
     ClockApplication.cpp
-    GLVector.cpp
     GLTriangle.cpp
     PolygonalModel.cpp
     PerspectiveCamera.cpp
+    Quaternion.cpp
+    Position.cpp
+    Vector.cpp
 )
 
 add_executable(clock ${SOURCES})

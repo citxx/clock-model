@@ -10,9 +10,9 @@ const int DEFAULT_WINDOW_WIDTH = 600;
 const int DEFAULT_WINDOW_HEIGHT = 600;
 
 // Camera parameters
-const GLVector DEFAULT_LOCATION = GLVector(7.0, 7.0, 7.0);
-const GLVector DEFAULT_CENTER = GLVector(0.0, 0.0, 0.0);
-const GLVector DEFAULT_UP = GLVector (0.0, 0.0, 0.1);
+const Vector DEFAULT_LOCATION = Vector(7.0, 7.0, 7.0);
+const Vector DEFAULT_CENTER = Vector(0.0, 0.0, 0.0);
+const Vector DEFAULT_UP = Vector (0.0, 0.0, 0.1);
 const float DEFAULT_VIEW_ANGLE = 60.0;
 const float DEFAULT_NEAR_PLANE = 1.0;
 const float DEFAULT_FAR_PLANE = 15.0;
@@ -87,7 +87,7 @@ void ClockApplication::drawScene() const {
         glColor3f(0.5, 0.5, 0.5);
     glEnd();
 
-    this->model->glDraw(GLVector(0.0, 0.0, 0.0));
+    this->model->glDraw(Vector(0.0, 0.0, 0.0));
 }
 
 void ClockApplication::processEvents() {
@@ -107,7 +107,7 @@ void ClockApplication::processEvents() {
         if (event.type == SDL_MOUSEMOTION) {
             if (this->isRotating) {
 //                std::cerr << "Moving" << std::endl;
-                this->rotateEnd = GLVector(event.motion.x, event.motion.y);
+                this->rotateEnd = Vector(event.motion.x, event.motion.y);
             }
 //            printf("Mouse moved by %d,%d to (%d,%d)\n",
 //                   event.motion.xrel, event.motion.yrel,
@@ -116,7 +116,7 @@ void ClockApplication::processEvents() {
         if (event.type == SDL_MOUSEBUTTONDOWN) {
             if (event.button.button == SDL_BUTTON_RIGHT) {
                 this->isRotating = true;
-                this->rotateStart = GLVector(event.button.x, event.button.y);
+                this->rotateStart = Vector(event.button.x, event.button.y);
                 this->rotateEnd = this->rotateStart;
                 this->cameraStart = this->mainCamera;
             }
@@ -130,7 +130,7 @@ void ClockApplication::processEvents() {
 
     // TODO: Calculate new camera position
     if (this->isRotating) {
-        GLVector move = this->rotateEnd - this->rotateStart;
+        Vector move = this->rotateEnd - this->rotateStart;
         float alpha = 2 * move.x / this->windowHeight * DEFAULT_VIEW_ANGLE;
         float betha = 2 * move.y / this->windowHeight * DEFAULT_VIEW_ANGLE;
 

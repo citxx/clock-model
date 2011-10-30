@@ -1,12 +1,12 @@
 #ifndef PERSPECTIVE_CAMERA_HPP
 #define PERSPECTIVE_CAMERA_HPP
 
-#include "GLVector.hpp"
+#include "Vector.hpp"
 
 class PerspectiveCamera {
-    GLVector location;
-    GLVector center;
-    GLVector up;
+    Vector location;
+    Vector center;
+    Vector up;
     float viewField;
     float aspectRatio;
     float nearZ;
@@ -14,9 +14,9 @@ class PerspectiveCamera {
 
   public:
     PerspectiveCamera(
-        const GLVector &location,
-        const GLVector &center,
-        const GLVector &up,
+        const Vector &location,
+        const Vector &center,
+        const Vector &up,
         float viewField,
         float aspectRatio,
         float nearZ,

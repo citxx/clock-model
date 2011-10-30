@@ -4,7 +4,7 @@
 #include <sstream>
 #include <cmath>
 
-#include "GLVector.hpp"
+#include "Vector.hpp"
 #include "GLTriangle.hpp"
 #include "PolygonalModel.hpp"
 
@@ -23,7 +23,7 @@ PolygonalModel::PolygonalModel(std::string fileName) {
     }
 
     std::string line;
-    std::vector <GLVector> vertices;
+    std::vector <Vector> vertices;
     std::vector <GLTriangle> faces;
     while (std::getline(modelStream, line)) {
 //        std::cerr << "Line: " << line << std::endl;
@@ -31,7 +31,7 @@ PolygonalModel::PolygonalModel(std::string fileName) {
             std::stringstream stream(line.substr(2));
             float x, y, z;
             stream >> x >> y >> z;
-            vertices.push_back(GLVector(x, y, z));
+            vertices.push_back(Vector(x, y, z));
         }
         else if (line.find("f ") == 0) {
             std::stringstream stream(line.substr(2));
@@ -72,15 +72,15 @@ PolygonalModel::~PolygonalModel() {
 }
 
 void PolygonalModel::glDraw(
-    const GLVector &position,
-    const GLVector &direction,
+    const Vector &position,
+    const Vector &direction,
     float selfAngle
 ) const {
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
         glTranslatef(position.x, position.y, position.z);
-        GLVector rotationAxis = multiply(GLVector(1.0, 0.0, 0.0), direction);
-        float rotationAngle = angle(GLVector(1.0, 0.0, 0.0), direction);
+        Vector rotationAxis = multiply(Vector(1.0, 0.0, 0.0), direction);
+        float rotationAngle = angle(Vector(1.0, 0.0, 0.0), direction);
 //        std::cerr << "Rotation: " << rotationAxis << " " << rotationAngle / M_PI * 180.0 << std::endl;
         glRotatef(rotationAngle / M_PI * 180.0, rotationAxis.x, rotationAxis.y, rotationAxis.z);
         glRotatef(selfAngle, 1.0, 0.0, 0.0);

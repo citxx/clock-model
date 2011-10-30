@@ -1,7 +1,7 @@
 #ifndef CLOCK_APPLICATION_HPP
 #define CLOCK_APPLICATION_HPP
 
-#include "GLVector.hpp"
+#include "Vector.hpp"
 #include "PerspectiveCamera.hpp"
 #include "PolygonalModel.hpp"
 #include "SDL.h"
@@ -16,8 +16,8 @@ class ClockApplication {
     PerspectiveCamera mainCamera;
 
     bool isRotating;
-    GLVector rotateStart;
-    GLVector rotateEnd;
+    Vector rotateStart;
+    Vector rotateEnd;
     PerspectiveCamera cameraStart;
 
     PolygonalModel *model;
