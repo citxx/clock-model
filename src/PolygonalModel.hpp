@@ -7,7 +7,7 @@
 
 #include "Model.hpp"
 #include "Position.hpp"
-#include "Vector.hpp"
+#include "Vector3D.hpp"
 
 class PolygonalModel: public Model {
     GLuint listNum;

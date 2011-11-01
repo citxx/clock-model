@@ -5,9 +5,9 @@
 #include "Position.hpp"
 
 Position::Position(
-    const Vector &location,
+    const Vector3D &location,
     const Rotation &rotation,
-    const Vector &scaling
+    const Vector3D &scaling
 ):
         location(location),
         rotation(rotation),

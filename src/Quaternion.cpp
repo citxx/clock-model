@@ -2,14 +2,14 @@
 
 #include "Quaternion.hpp"
 
-Quaternion::Quaternion(float w, const Vector &v):
+Quaternion::Quaternion(float w, const Vector3D &v):
         w(w),
         v(v) {
 }
 
 Quaternion::Quaternion(float w, float x, float y, float z):
         w(w),
-        v(Vector(x, y, z)) {
+        v(Vector3D(x, y, z)) {
 }
 
 bool operator ==(const Quaternion &a, const Quaternion &b) {
@@ -33,7 +33,7 @@ Quaternion operator -(const Quaternion &a, const Quaternion &b) {
 }
 
 Quaternion operator *(const Quaternion &a, const Quaternion &b) {
-    return Quaternion(a.w * b.w - a.v * b.v, a.w * b.v + b.w * a.v + multiply(a.v, b.v));
+    return Quaternion(a.w * b.w - a.v * b.v, a.w * b.v + b.w * a.v + crossProduct(a.v, b.v));
 }
 
 Quaternion operator *(float a, const Quaternion &b) {

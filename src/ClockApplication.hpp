@@ -5,7 +5,7 @@
 #include "PerspectiveCamera.hpp"
 #include "PolygonalModel.hpp"
 #include "SDL.h"
-#include "Vector.hpp"
+#include "Vector3D.hpp"
 
 class ClockApplication {
     SDL_Surface *screen;
@@ -17,8 +17,8 @@ class ClockApplication {
     PerspectiveCamera mainCamera;
 
     bool isRotating;
-    Vector rotateStart;
-    Vector rotateEnd;
+    Vector3D rotateStart;
+    Vector3D rotateEnd;
     PerspectiveCamera cameraStart;
 
     PolygonalModel *axes, *cyl;

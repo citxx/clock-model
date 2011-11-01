@@ -6,9 +6,9 @@
 #include "PerspectiveCamera.hpp"
 
 PerspectiveCamera::PerspectiveCamera(
-    const Vector &location,
-    const Vector &center,
-    const Vector &up,
+    const Vector3D &location,
+    const Vector3D &center,
+    const Vector3D &up,
     float viewField,
     float aspectRatio,
     float nearZ,
@@ -20,7 +20,7 @@ PerspectiveCamera::PerspectiveCamera(
         aspectRatio(aspectRatio),
         nearZ(nearZ),
         farZ(farZ) {
-    Vector direction = this->location - this->center;
+    Vector3D direction = this->location - this->center;
     this->up = normalized(this->up - (this->up * normalized(direction)) * normalized(direction));
     if (this->up.len() < 1e-5) {
         throw "PerspectiveCamera: error: invalid value of up vector";
@@ -53,13 +53,13 @@ PerspectiveCamera PerspectiveCamera::rotated(float alpha, float betha) const {
     float alphaR = alpha * M_PI / 180.0;
     float bethaR = -betha * M_PI / 180.0;
 //    std::cerr << alphaR << " " << bethaR << std::endl;
-    Vector direction = this->location - this->center;
-    Vector left = normalized(normal(direction, this->up));
+    Vector3D direction = this->location - this->center;
+    Vector3D left = normalized(normal(direction, this->up));
 
-    Vector add = (tanf(bethaR) * direction.len()) * this->up +
+    Vector3D add = (tanf(bethaR) * direction.len()) * this->up +
                    (tanf(alphaR) * direction.len()) * left;
 
-    Vector newDirection = direction.len() * normalized(direction + add);
+    Vector3D newDirection = direction.len() * normalized(direction + add);
 
 //    std::cerr << newDirection << this->up << std::endl;
     return PerspectiveCamera(

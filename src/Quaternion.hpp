@@ -1,15 +1,15 @@
 #ifndef QUATERNION_HPP
 #define QUATERNION_HPP
 
-#include "Vector.hpp"
+#include "Vector3D.hpp"
 
 class Quaternion {
   public:
-    Quaternion(float w, const Vector &v);
+    Quaternion(float w, const Vector3D &v);
     Quaternion(float w, float x, float y, float z);
 
     float w;
-    Vector v;
+    Vector3D v;
 };
 
 bool operator ==(const Quaternion &a, const Quaternion &b);

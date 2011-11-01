@@ -2,7 +2,7 @@
 #define ROTATION_HPP
 
 #include "Quaternion.hpp"
-#include "Vector.hpp"
+#include "Vector3D.hpp"
 
 class Rotation {
     Quaternion r;
@@ -10,7 +10,7 @@ class Rotation {
   public:
     Rotation();
     Rotation(const Quaternion &q);
-    Rotation(float angle, const Vector &axis);
+    Rotation(float angle, const Vector3D &axis);
     Rotation(float angle, float x, float y, float z);
 
     void glPerform() const;

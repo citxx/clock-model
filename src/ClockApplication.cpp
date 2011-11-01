@@ -11,9 +11,9 @@ const int DEFAULT_WINDOW_WIDTH = 600;
 const int DEFAULT_WINDOW_HEIGHT = 600;
 
 // Camera parameters
-const Vector DEFAULT_LOCATION = Vector(7.0, 7.0, 7.0);
-const Vector DEFAULT_CENTER = Vector(0.0, 0.0, 0.0);
-const Vector DEFAULT_UP = Vector (0.0, 0.0, 0.1);
+const Vector3D DEFAULT_LOCATION = Vector3D(7.0, 7.0, 7.0);
+const Vector3D DEFAULT_CENTER = Vector3D(0.0, 0.0, 0.0);
+const Vector3D DEFAULT_UP = Vector3D (0.0, 0.0, 0.1);
 const float DEFAULT_VIEW_ANGLE = 60.0;
 const float DEFAULT_NEAR_PLANE = 1.0;
 const float DEFAULT_FAR_PLANE = 15.0;
@@ -47,7 +47,7 @@ ClockApplication::ClockApplication():
         throw (std::string("SDL Error: ") + SDL_GetError()).c_str();
     }
 
-    this->axes = new PolygonalModel("models/axes.obj");
+    this->axes = new PolygonalModel("models/monkey.obj");
     this->cyl = new PolygonalModel("models/cyl.obj");
     this->model = NULL;
 
@@ -88,14 +88,15 @@ void ClockApplication::buildScene() {
 
     models.push_back(this->cyl);
     positions.push_back(Position(
-        Vector(0.0, 0.0, 0.0),
-        Rotation(0.5 * M_PI, Vector(1.0, 0.0, 0.0)),
-        Vector(5.0, 1.0, 4.0)
+        Vector3D(0.0, 0.0, 0.0),
+        Rotation(0.5 * M_PI, Vector3D(1.0, 0.0, 0.0)),
+        Vector3D(3.0, 1.0, 2.0)
     ));
 
     models.push_back(this->axes);
     positions.push_back(Position(
-        Vector(0.0, 0.0, 1.2)
+        Vector3D(0.0, 0.0, 1.2),
+        Rotation(0.5 * M_PI, Vector3D(1.0, 0.0, 0.0))
     ));
 
     this->model = new CompoundModel(models, positions);
@@ -117,7 +118,7 @@ void ClockApplication::drawScene() const {
         glColor3f(0.5, 0.5, 0.5);
     glEnd();
 
-    this->model->glDraw(Position(Vector(0.0, 0.0, 0.0)));
+    this->model->glDraw(Position(Vector3D(0.0, 0.0, 0.0)));
 }
 
 void ClockApplication::processEvents() {
@@ -137,7 +138,7 @@ void ClockApplication::processEvents() {
         if (event.type == SDL_MOUSEMOTION) {
             if (this->isRotating) {
 //                std::cerr << "Moving" << std::endl;
-                this->rotateEnd = Vector(event.motion.x, event.motion.y);
+                this->rotateEnd = Vector3D(event.motion.x, event.motion.y);
             }
 //            printf("Mouse moved by %d,%d to (%d,%d)\n",
 //                   event.motion.xrel, event.motion.yrel,
@@ -146,7 +147,7 @@ void ClockApplication::processEvents() {
         if (event.type == SDL_MOUSEBUTTONDOWN) {
             if (event.button.button == SDL_BUTTON_RIGHT) {
                 this->isRotating = true;
-                this->rotateStart = Vector(event.button.x, event.button.y);
+                this->rotateStart = Vector3D(event.button.x, event.button.y);
                 this->rotateEnd = this->rotateStart;
                 this->cameraStart = this->mainCamera;
             }
@@ -160,7 +161,7 @@ void ClockApplication::processEvents() {
 
     // TODO: Calculate new camera position
     if (this->isRotating) {
-        Vector move = this->rotateEnd - this->rotateStart;
+        Vector3D move = this->rotateEnd - this->rotateStart;
         float alpha = 2 * move.x / this->windowHeight * DEFAULT_VIEW_ANGLE;
         float betha = 2 * move.y / this->windowHeight * DEFAULT_VIEW_ANGLE;
 

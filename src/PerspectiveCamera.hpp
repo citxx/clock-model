@@ -1,12 +1,12 @@
 #ifndef PERSPECTIVE_CAMERA_HPP
 #define PERSPECTIVE_CAMERA_HPP
 
-#include "Vector.hpp"
+#include "Vector3D.hpp"
 
 class PerspectiveCamera {
-    Vector location;
-    Vector center;
-    Vector up;
+    Vector3D location;
+    Vector3D center;
+    Vector3D up;
     float viewField;
     float aspectRatio;
     float nearZ;
@@ -14,9 +14,9 @@ class PerspectiveCamera {
 
   public:
     PerspectiveCamera(
-        const Vector &location,
-        const Vector &center,
-        const Vector &up,
+        const Vector3D &location,
+        const Vector3D &center,
+        const Vector3D &up,
         float viewField,
         float aspectRatio,
         float nearZ,

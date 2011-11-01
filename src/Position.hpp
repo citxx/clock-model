@@ -2,18 +2,18 @@
 #define POSITION_HPP
 
 #include "Rotation.hpp"
-#include "Vector.hpp"
+#include "Vector3D.hpp"
 
 class Position {
-    Vector location;
+    Vector3D location;
     Rotation rotation;
-    Vector scaling;
+    Vector3D scaling;
 
   public:
     explicit Position(
-        const Vector &location,
+        const Vector3D &location,
         const Rotation &rotation = Rotation(),
-        const Vector &scaling = Vector(1.0, 1.0, 1.0)
+        const Vector3D &scaling = Vector3D(1.0, 1.0, 1.0)
     );
 
     void glPerform() const;
