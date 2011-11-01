@@ -18,13 +18,15 @@ set(SOURCES
     CompoundModel.cpp
     clock.cpp
     ClockApplication.cpp
-    GLTriangle.cpp
+    GLFace.cpp
+    GLVertex.cpp
     PolygonalModel.cpp
     PerspectiveCamera.cpp
     Position.cpp
     Quaternion.cpp
     Rotation.cpp
-    Vector.cpp
+    Vector2D.cpp
+    Vector3D.cpp
 )
 
 add_executable(clock ${SOURCES})
