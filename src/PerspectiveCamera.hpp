@@ -28,6 +28,8 @@ class PerspectiveCamera {
 
     PerspectiveCamera rotated(float alpha, float betha) const;
     PerspectiveCamera resized(int width, int height) const;
+    PerspectiveCamera moved(const Vector3D &v) const;
+    PerspectiveCamera redistanted(float diffDistance) const;
 };
 
 #endif  // PERSPECTIVE_CAMERA_HPP

@@ -84,3 +84,27 @@ PerspectiveCamera PerspectiveCamera::resized(int width, int height) const {
         this->farZ
     );
 }
+
+PerspectiveCamera PerspectiveCamera::moved(const Vector3D &v) const {
+    return PerspectiveCamera(
+        this->location + v,
+        this->center + v,
+        this->up,
+        this->viewField,
+        this->aspectRatio,
+        this->nearZ,
+        this->farZ
+    );
+}
+
+PerspectiveCamera PerspectiveCamera::redistanted(float diffDistance) const {
+    return PerspectiveCamera(
+        this->center + diffDistance * (this->location - this->center),
+        this->center,
+        this->up,
+        this->viewField,
+        this->aspectRatio,
+        this->nearZ,
+        this->farZ
+    );
+}
