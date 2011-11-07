@@ -54,6 +54,7 @@ ClockApplication::ClockApplication():
 
     this->stand = new PolygonalModel("models/stand.obj");
     this->wheel = new PolygonalModel("models/wheel.obj");
+    this->secondArrow = new PolygonalModel("models/secondArrow.obj");
     this->clock = NULL;
 
     glClearColor(BG_COLOR[0], BG_COLOR[1], BG_COLOR[2], BG_COLOR[3]);
@@ -79,7 +80,7 @@ ClockApplication::~ClockApplication() {
 
 void ClockApplication::buildScene() {
     time_t currentTime = time(NULL);
-    int seconds = currentTime;
+    int seconds = currentTime % 60;
     int minutes = currentTime / 60 % 60;
     int hours = currentTime / (60 * 60) % 24;
     float realMinutes = (currentTime % (60 * 60)) / 60.0;
@@ -103,7 +104,13 @@ void ClockApplication::buildScene() {
     models.push_back(this->wheel);
     positions.push_back(Position(
         Vector3D(0.0, 0.0, 9.0),
-        Rotation(WHEEL_SPEED * abstractSeconds * M_PI_2, Vector3D(-1.0, 0.0, 0.0))
+        Rotation(WHEEL_SPEED * abstractSeconds * 2 * M_PI, Vector3D(-1.0, 0.0, 0.0))
+    ));
+
+    models.push_back(this->secondArrow);
+    positions.push_back(Position(
+        Vector3D(3.73, 0.0, 7.5),
+        Rotation(seconds / 60.0 * 2 * M_PI, Vector3D(-1.0, 0.0, 0.0))
     ));
 
     this->clock = new CompoundModel(models, positions);
