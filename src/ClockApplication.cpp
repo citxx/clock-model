@@ -1,4 +1,5 @@
 #include <cmath>
+#include <ctime>
 #include <iostream>
 #include <GL/gl.h>
 #include <GL/glu.h>
@@ -21,6 +22,8 @@ const float DEFAULT_FAR_PLANE = 50.0;
 const float DISTANCE_DIFF = 0.9;
 
 const int BG_COLOR[] = {1.0, 1.0, 1.0, 1.0};
+
+const float WHEEL_SPEED = 0.33;  // Rotations per second
 
 ClockApplication::ClockApplication():
     windowWidth(DEFAULT_WINDOW_WIDTH),
@@ -50,6 +53,8 @@ ClockApplication::ClockApplication():
     }
 
     this->stand = new PolygonalModel("models/stand.obj");
+    this->wheel = new PolygonalModel("models/wheel.obj");
+    this->clock = NULL;
 
     glClearColor(BG_COLOR[0], BG_COLOR[1], BG_COLOR[2], BG_COLOR[3]);
     glClearDepth(1.0f);
@@ -73,26 +78,35 @@ ClockApplication::~ClockApplication() {
 }
 
 void ClockApplication::buildScene() {
-/*    if (this->model != NULL) {
-        delete this->model;
+    time_t currentTime = time(NULL);
+    int seconds = currentTime;
+    int minutes = currentTime / 60 % 60;
+    int hours = currentTime / (60 * 60) % 24;
+    float realMinutes = (currentTime % (60 * 60)) / 60.0;
+    float realHours = (currentTime % (24 * 60 * 6)) / (60.0 * 60.0);
+
+    float abstractMilliseconds = SDL_GetTicks();
+    float abstractSeconds = abstractMilliseconds / 1000.0;
+
+    if (this->clock != NULL) {
+        delete this->clock;
     }
 
     std::vector <Model *> models;
     std::vector <Position> positions;
 
-    models.push_back(this->cyl);
+    models.push_back(this->stand);
     positions.push_back(Position(
-        Vector3D(0.0, 0.0, 0.0),
-        Rotation(0.5 * M_PI, Vector3D(1.0, 0.0, 0.0)),
-        Vector3D(3.0, 1.0, 2.0)
+        Vector3D(0.0, 0.0, 0.0)
     ));
 
-    models.push_back(this->axes);
+    models.push_back(this->wheel);
     positions.push_back(Position(
-        Vector3D(0.0, 0.0, 1.2)
+        Vector3D(0.0, 0.0, 9.0),
+        Rotation(WHEEL_SPEED * abstractSeconds * M_PI_2, Vector3D(-1.0, 0.0, 0.0))
     ));
 
-    this->model = new CompoundModel(models, positions);*/
+    this->clock = new CompoundModel(models, positions);
 }
 
 void ClockApplication::drawScene() {
@@ -117,26 +131,7 @@ void ClockApplication::drawScene() {
         glColor3f(0.5, 0.5, 0.5);
     glEnd();
 
-/*    glBegin(GL_TRIANGLES);
-        (this->materials)["Dial"].glActivate();
-        GLVertex(
-            Vector3D(0.0, 0.0, 0.0),
-            Vector2D(0.0, 0.0),
-            Vector3D(1.0, 0.0, 0.0)
-        ).glPass();
-        GLVertex(
-            Vector3D(0.0, 0.0, 5.0),
-            Vector2D(1.0, 0.0),
-            Vector3D(1.0, 0.0, 0.0)
-        ).glPass();
-        GLVertex(
-            Vector3D(0.0, 5.0, 5.0),
-            Vector2D(1.0, 1.0),
-            Vector3D(1.0, 0.0, 0.0)
-        ).glPass();
-    glEnd();*/
-
-    this->stand->glDraw(Position(Vector3D(0.0, 0.0, 0.0)));
+    this->clock->glDraw(Position(Vector3D(0.0, 0.0, 0.0)));
 }
 
 void ClockApplication::processEvents() {
