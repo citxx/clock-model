@@ -6,11 +6,11 @@
 
 class GLVertex {
     Vector3D location;
-    Vector3D normal;
     Vector2D uv;
+    Vector3D normal;
 
   public:
-    GLVertex(const Vector3D &location, const Vector3D &normal);
+    GLVertex(const Vector3D &location, const Vector2D &uv, const Vector3D &normal);
 
     void glPass() const;
 };

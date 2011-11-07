@@ -11,12 +11,14 @@ const int DEFAULT_WINDOW_WIDTH = 600;
 const int DEFAULT_WINDOW_HEIGHT = 600;
 
 // Camera parameters
-const Vector3D DEFAULT_LOCATION = Vector3D(7.0, 7.0, 7.0);
+const Vector3D DEFAULT_LOCATION = Vector3D(15.0, 15.0, 15.0);
 const Vector3D DEFAULT_CENTER = Vector3D(0.0, 0.0, 0.0);
 const Vector3D DEFAULT_UP = Vector3D (0.0, 0.0, 0.1);
 const float DEFAULT_VIEW_ANGLE = 60.0;
 const float DEFAULT_NEAR_PLANE = 1.0;
-const float DEFAULT_FAR_PLANE = 15.0;
+const float DEFAULT_FAR_PLANE = 50.0;
+
+const float DISTANCE_DIFF = 0.9;
 
 const int BG_COLOR[] = {1.0, 1.0, 1.0, 1.0};
 
@@ -47,39 +49,31 @@ ClockApplication::ClockApplication():
         throw (std::string("SDL Error: ") + SDL_GetError()).c_str();
     }
 
-    this->axes = new PolygonalModel("models/monkey.obj");
-    this->cyl = new PolygonalModel("models/cyl.obj");
-    this->model = NULL;
+    this->stand = new PolygonalModel("models/dial.obj");
 
     glClearColor(BG_COLOR[0], BG_COLOR[1], BG_COLOR[2], BG_COLOR[3]);
     glClearDepth(1.0f);
     glViewport(0, 0, this->windowWidth, this->windowHeight);
 
-    GLfloat light_diffuse[] = {1.0, 1.0, 1.0, 1.0};
-    GLfloat light_position[] = {1.5, 1.5, 1.5, 0.0};  /* Infinite light location. */
-
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
-    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
     glEnable(GL_LIGHT0);
     glEnable(GL_LIGHTING);
     glEnable(GL_COLOR_MATERIAL);
 
     glEnable(GL_DEPTH_TEST);
-
+    glEnable(GL_NORMALIZE);
 }
 
 ClockApplication::~ClockApplication() {
-    delete this->axes;
-    delete this->cyl;
-    if (this->model != NULL) {
+    delete this->stand;
+/*    if (this->model != NULL) {
         delete this->model;
     }
-
+*/
     SDL_Quit();
 }
 
 void ClockApplication::buildScene() {
-    if (this->model != NULL) {
+/*    if (this->model != NULL) {
         delete this->model;
     }
 
@@ -95,15 +89,20 @@ void ClockApplication::buildScene() {
 
     models.push_back(this->axes);
     positions.push_back(Position(
-        Vector3D(0.0, 0.0, 1.2),
-        Rotation(0.5 * M_PI, Vector3D(1.0, 0.0, 0.0))
+        Vector3D(0.0, 0.0, 1.2)
     ));
 
-    this->model = new CompoundModel(models, positions);
+    this->model = new CompoundModel(models, positions);*/
 }
 
-void ClockApplication::drawScene() const {
+void ClockApplication::drawScene() {
     this->mainCamera.glActivate();
+
+    GLfloat light_diffuse[] = {1.0, 1.0, 1.0, 1.0};
+    GLfloat light_position[] = {4.0, 7.0, 10.0, 0.0};  /* Infinite light location. */
+
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 
     glBegin(GL_LINES);
         glColor3f(1.0, 0.0, 0.0);
@@ -118,7 +117,26 @@ void ClockApplication::drawScene() const {
         glColor3f(0.5, 0.5, 0.5);
     glEnd();
 
-    this->model->glDraw(Position(Vector3D(0.0, 0.0, 0.0)));
+/*    glBegin(GL_TRIANGLES);
+        (this->materials)["Dial"].glActivate();
+        GLVertex(
+            Vector3D(0.0, 0.0, 0.0),
+            Vector2D(0.0, 0.0),
+            Vector3D(1.0, 0.0, 0.0)
+        ).glPass();
+        GLVertex(
+            Vector3D(0.0, 0.0, 5.0),
+            Vector2D(1.0, 0.0),
+            Vector3D(1.0, 0.0, 0.0)
+        ).glPass();
+        GLVertex(
+            Vector3D(0.0, 5.0, 5.0),
+            Vector2D(1.0, 1.0),
+            Vector3D(1.0, 0.0, 0.0)
+        ).glPass();
+    glEnd();*/
+
+    this->stand->glDraw(Position(Vector3D(0.0, 0.0, 0.0)));
 }
 
 void ClockApplication::processEvents() {
@@ -157,6 +175,12 @@ void ClockApplication::processEvents() {
                 this->isRotating = false;
             }
         }
+/*        if (event.type == 4) {
+            this->mainCamera = this->mainCamera.redistanted(DISTANCE_DIFF);
+        }
+        if (event.type == 5) {
+            this->mainCamera = this->mainCamera.redistanted(1.0 / DISTANCE_DIFF);
+        }*/
     }
 
     // TODO: Calculate new camera position

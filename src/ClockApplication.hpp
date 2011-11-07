@@ -21,10 +21,9 @@ class ClockApplication {
     Vector3D rotateEnd;
     PerspectiveCamera cameraStart;
 
-    PolygonalModel *axes, *cyl;
-    CompoundModel *model;
+    PolygonalModel *stand;
     void buildScene();
-    void drawScene() const;
+    void drawScene();
 
     void processEvents();
 

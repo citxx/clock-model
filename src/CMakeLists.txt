@@ -1,6 +1,7 @@
 add_definitions(-Wall -pedantic -O2)
 
 find_package(SDL REQUIRED)
+find_package (SDL_image REQUIRED)
 if (NOT SDL_FOUND)
     message(FATAL_ERROR "SDL not found!")
 endif (NOT SDL_FOUND)
@@ -18,8 +19,9 @@ set(SOURCES
     CompoundModel.cpp
     clock.cpp
     ClockApplication.cpp
-    GLFace.cpp
+    Color.cpp
     GLVertex.cpp
+    Material.cpp
     PolygonalModel.cpp
     PerspectiveCamera.cpp
     Position.cpp
@@ -32,5 +34,6 @@ set(SOURCES
 add_executable(clock ${SOURCES})
 target_link_libraries(clock
     ${SDL_LIBRARY}
+    ${SDLIMAGE_LIBRARY}
     ${OPENGL_LIBRARIES}
 )
