@@ -49,7 +49,7 @@ ClockApplication::ClockApplication():
         throw (std::string("SDL Error: ") + SDL_GetError()).c_str();
     }
 
-    this->stand = new PolygonalModel("models/dial.obj");
+    this->stand = new PolygonalModel("models/stand.obj");
 
     glClearColor(BG_COLOR[0], BG_COLOR[1], BG_COLOR[2], BG_COLOR[3]);
     glClearDepth(1.0f);
