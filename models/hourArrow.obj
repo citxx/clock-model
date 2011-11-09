@@ -1,6 +1,6 @@
 # Blender v2.58 (sub 0) OBJ File: 'scene.blend'
 # www.blender.org
-mtllib hourArrow.mtl
+mtllib models/hourArrow.mtl
 o HourArrow_Circle.002
 v 0.000000 0.426737 0.000000
 v 0.000000 -0.426737 0.000000

@@ -27,7 +27,7 @@ Material::Material(
         ambient(ambient),
         diffuse(diffuse),
         specular(specular),
-        shininess(shinines / 128.0),
+        shininess(shininess / 128.0),
         emission(emission) {
     SDL_Surface *img;
     void *raw;

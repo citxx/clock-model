@@ -12,7 +12,7 @@ const int DEFAULT_WINDOW_WIDTH = 600;
 const int DEFAULT_WINDOW_HEIGHT = 600;
 
 // Camera parameters
-const Vector3D DEFAULT_LOCATION = Vector3D(20.0, 0.0, 15.0);
+const Vector3D DEFAULT_LOCATION = Vector3D(20.0, -10.0, 16.0);
 const Vector3D DEFAULT_CENTER = Vector3D(0.0, 0.0, 7.5);
 const Vector3D DEFAULT_UP = Vector3D (0.0, 0.0, 0.1);
 const float DEFAULT_VIEW_ANGLE = 60.0;
@@ -64,6 +64,7 @@ ClockApplication::ClockApplication():
     glViewport(0, 0, this->windowWidth, this->windowHeight);
 
     glEnable(GL_LIGHT0);
+    glEnable(GL_LIGHT1);
     glEnable(GL_LIGHTING);
     glEnable(GL_COLOR_MATERIAL);
 
@@ -125,7 +126,6 @@ void ClockApplication::buildScene() {
         Rotation(minutes / 60.0 * 2 * M_PI, Vector3D(-1.0, 0.0, 0.0))
     ));
 
-    std::cerr << realHours << std::endl;
     models.push_back(this->hourArrow);
     positions.push_back(Position(
         Vector3D(3.79, 0.0, 7.5),
@@ -138,13 +138,18 @@ void ClockApplication::buildScene() {
 void ClockApplication::drawScene() {
     this->mainCamera.glActivate();
 
-    GLfloat light_diffuse[] = {1.0, 1.0, 1.0, 1.0};
-    GLfloat light_position[] = {4.0, 7.0, 10.0, 0.0};  /* Infinite light location. */
+    GLfloat light0_diffuse[] = {0.6, 0.6, 0.6, 1.0};
+    GLfloat light0_position[] = {4.0, 7.0, 10.0, 0.0};
 
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
-    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+    GLfloat light1_diffuse[] = {0.4, 0.4, 0.4, 1.0};
+    GLfloat light1_position[] = {-4.0, -7.0, 10.0, 0.0};
 
-    glBegin(GL_LINES);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, light0_diffuse);
+    glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, light1_diffuse);
+    glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
+
+/*    glBegin(GL_LINES);
         glColor3f(1.0, 0.0, 0.0);
         glVertex3f(0.0, 0.0, 0.0);
         glVertex3f(10.0, 0.0, 0.0);
@@ -155,7 +160,7 @@ void ClockApplication::drawScene() {
         glVertex3f(0.0, 0.0, 0.0);
         glVertex3f(0.0, 0.0, 10.0);
         glColor3f(0.5, 0.5, 0.5);
-    glEnd();
+    glEnd();*/
 
     this->clock->glDraw(Position(Vector3D(0.0, 0.0, 0.0)));
 }
@@ -196,12 +201,20 @@ void ClockApplication::processEvents() {
                 this->isRotating = false;
             }
         }
-/*        if (event.type == 4) {
-            this->mainCamera = this->mainCamera.redistanted(DISTANCE_DIFF);
+        if (event.type == SDL_KEYDOWN) {
+            if (event.key.keysym.sym == '+' || event.key.keysym.sym == '=') {
+                this->mainCamera = this->mainCamera.redistanted(DISTANCE_DIFF);
+            }
+            else if (event.key.keysym.sym == '-') {
+                this->mainCamera = this->mainCamera.redistanted(1.0 / DISTANCE_DIFF);
+            }
+            else if (event.key.keysym.sym == 'q' || event.key.keysym.sym == 'Q') {
+                this->isRunning = false;
+            }
+            else if (event.key.keysym.sym == SDLK_ESCAPE) {
+                this->isRunning = false;
+            }
         }
-        if (event.type == 5) {
-            this->mainCamera = this->mainCamera.redistanted(1.0 / DISTANCE_DIFF);
-        }*/
     }
 
     // TODO: Calculate new camera position
