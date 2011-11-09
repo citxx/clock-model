@@ -1,0 +1,12 @@
+# Blender MTL File: 'scene.blend'
+# Material Count: 1
+newmtl HourArrow
+Ns 19.607843
+Ka 0.000000 0.000000 0.000000
+Kd 0.361924 0.141864 0.033744
+Ks 0.703252 0.537055 0.165174
+Ni 1.000000
+d 1.000000
+illum 2
+
+
