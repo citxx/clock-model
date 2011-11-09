@@ -12,8 +12,8 @@ const int DEFAULT_WINDOW_WIDTH = 600;
 const int DEFAULT_WINDOW_HEIGHT = 600;
 
 // Camera parameters
-const Vector3D DEFAULT_LOCATION = Vector3D(15.0, 15.0, 15.0);
-const Vector3D DEFAULT_CENTER = Vector3D(0.0, 0.0, 0.0);
+const Vector3D DEFAULT_LOCATION = Vector3D(20.0, 0.0, 15.0);
+const Vector3D DEFAULT_CENTER = Vector3D(0.0, 0.0, 7.5);
 const Vector3D DEFAULT_UP = Vector3D (0.0, 0.0, 0.1);
 const float DEFAULT_VIEW_ANGLE = 60.0;
 const float DEFAULT_NEAR_PLANE = 1.0;
@@ -23,7 +23,7 @@ const float DISTANCE_DIFF = 0.9;
 
 const int BG_COLOR[] = {1.0, 1.0, 1.0, 1.0};
 
-const float WHEEL_SPEED = 0.33;  // Rotations per second
+const float WHEEL_SPEED = 0.1;  // Rotations per second
 
 ClockApplication::ClockApplication():
     windowWidth(DEFAULT_WINDOW_WIDTH),
@@ -55,6 +55,8 @@ ClockApplication::ClockApplication():
     this->stand = new PolygonalModel("models/stand.obj");
     this->wheel = new PolygonalModel("models/wheel.obj");
     this->secondArrow = new PolygonalModel("models/secondArrow.obj");
+    this->minuteArrow = new PolygonalModel("models/minuteArrow.obj");
+    this->hourArrow = new PolygonalModel("models/hourArrow.obj");
     this->clock = NULL;
 
     glClearColor(BG_COLOR[0], BG_COLOR[1], BG_COLOR[2], BG_COLOR[3]);
@@ -71,6 +73,9 @@ ClockApplication::ClockApplication():
 
 ClockApplication::~ClockApplication() {
     delete this->stand;
+    delete this->wheel;
+    delete this->secondArrow;
+    delete this->minuteArrow;
 /*    if (this->model != NULL) {
         delete this->model;
     }
@@ -80,11 +85,12 @@ ClockApplication::~ClockApplication() {
 
 void ClockApplication::buildScene() {
     time_t currentTime = time(NULL);
-    int seconds = currentTime % 60;
-    int minutes = currentTime / 60 % 60;
-    int hours = currentTime / (60 * 60) % 24;
-    float realMinutes = (currentTime % (60 * 60)) / 60.0;
-    float realHours = (currentTime % (24 * 60 * 6)) / (60.0 * 60.0);
+    struct tm *localTime = localtime(&currentTime);
+    int seconds = localTime->tm_sec;
+    int minutes = localTime->tm_min;
+    int hours = localTime->tm_hour;
+    float realMinutes = minutes + seconds / 60.0;
+    float realHours = hours + realMinutes / 60.0;
 
     float abstractMilliseconds = SDL_GetTicks();
     float abstractSeconds = abstractMilliseconds / 1000.0;
@@ -109,8 +115,21 @@ void ClockApplication::buildScene() {
 
     models.push_back(this->secondArrow);
     positions.push_back(Position(
-        Vector3D(3.73, 0.0, 7.5),
+        Vector3D(3.85, 0.0, 7.5),
         Rotation(seconds / 60.0 * 2 * M_PI, Vector3D(-1.0, 0.0, 0.0))
+    ));
+
+    models.push_back(this->minuteArrow);
+    positions.push_back(Position(
+        Vector3D(3.73, 0.0, 7.5),
+        Rotation(minutes / 60.0 * 2 * M_PI, Vector3D(-1.0, 0.0, 0.0))
+    ));
+
+    std::cerr << realHours << std::endl;
+    models.push_back(this->hourArrow);
+    positions.push_back(Position(
+        Vector3D(3.79, 0.0, 7.5),
+        Rotation(realHours / 12.0 * 2 * M_PI, Vector3D(-1.0, 0.0, 0.0))
     ));
 
     this->clock = new CompoundModel(models, positions);

@@ -21,7 +21,8 @@ class ClockApplication {
     Vector3D rotateEnd;
     PerspectiveCamera cameraStart;
 
-    PolygonalModel *stand, *wheel, *secondArrow;
+    PolygonalModel *stand, *wheel;
+    PolygonalModel *secondArrow, *minuteArrow, *hourArrow;
     CompoundModel *clock;
     void buildScene();
     void drawScene();
